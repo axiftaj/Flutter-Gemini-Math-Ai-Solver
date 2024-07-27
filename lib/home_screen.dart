@@ -30,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
   StreamSocket streamSocket = StreamSocket();
 
   bool _loading = false;
-  static const _apiKey = 'AIzaSyCNPXTgr6aDQyy2GJgunSUdaLJ7gF1rwpg';
+  //save it in .env file or define system files
+  static const _apiKey = 'your_api_kye';
   File? _image ;
 
   final ImagePicker _picker = ImagePicker();
@@ -297,15 +298,9 @@ class _HomeScreenState extends State<HomeScreen> {
           toolbarTitle: 'Cropper',
           toolbarColor: Colors.deepOrange,
           toolbarWidgetColor: Colors.white,
-          // aspectRatioPresets: [
-          //   CropAspectRatioPreset.original,
-          //   CropAspectRatioPreset.square,
-          //   CropAspectRatioPresetCustom(),
-          // ],
         ),
         IOSUiSettings(
           title: 'Cropper',
-
         ),
         WebUiSettings(
           context: context,
