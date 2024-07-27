@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _loading = false;
   //save it in .env file or define system files
   static const _apiKey = 'your_api_kye';
+
   File? _image ;
 
   final ImagePicker _picker = ImagePicker();
