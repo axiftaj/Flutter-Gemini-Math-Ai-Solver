@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
@@ -70,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
 
       appBar: AppBar(
-        title: Text('Gemini'),
+        title: const Text('Gemini'),
       ),
 
       body: Column(
@@ -83,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
             builder: (BuildContext context,  snapshot) {
               if(!snapshot.hasData){
-                return Center(child: const CircularProgressIndicator());
+                return const Center(child:  CircularProgressIndicator());
               }else {
                 if (list.isEmpty) {
                   return const Expanded(child:  Center(child: Text('Greetings!\n How i can help you', textAlign: TextAlign.center, style: TextStyle(color: Colors.white))));
