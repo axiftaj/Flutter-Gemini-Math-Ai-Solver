@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   StreamSocket streamSocket = StreamSocket();
 
   bool _loading = false;
+
   //save it in .env file or define system files
   static const _apiKey = 'your_api_kye';
 
