@@ -3,6 +3,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _loading = false;
 
   //save it in .env file or define system files
-  static const _apiKey = 'AIzaSyCBQ4HCLz5kiyLhr17yKG_nLUvwZ8inXxE';
+   String _apiKey = '';
 
   File? _image ;
 
@@ -55,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     _scrollController = ScrollController() ;
+    _apiKey = dotenv.env['GOOGLE_GEMINI_API_KEY'] ?? '';
     streamSocket.getResponse ;
     _model = GenerativeModel(
       model: 'gemini-1.5-flash',
@@ -66,6 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     _chat = _model.startChat();
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
