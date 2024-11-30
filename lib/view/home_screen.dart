@@ -4,13 +4,10 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:google_gen_ai/view/widgets/message_bubble_widget.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
-import 'widgets/widget.dart';
 import 'package:image_cropper/image_cropper.dart';
 
-import '../model/data_model.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -82,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           StreamBuilder<List<DataModel>>(
             stream: streamSocket.getResponse,
-           initialData: [
+            initialData: [
               DataModel('No Data Found', 'No Data Found', 'No Data Found')
             ],
             builder: (BuildContext context,  snapshot) {
@@ -342,8 +339,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-
-
 class StreamSocket {
 
   final _socketResponse = StreamController<List<DataModel>>.broadcast();
@@ -351,4 +346,53 @@ class StreamSocket {
   void Function(List<DataModel>) get addResponse => _socketResponse.sink.add;
   Stream<List<DataModel>> get getResponse => _socketResponse.stream.asBroadcastStream();
 
+}
+
+class DataModel{
+  String prompt, type, image;
+  bool isMe ;
+  DataModel(this.image , this.type, this.prompt , {this.isMe = false});
+}
+
+
+class MessageBubbleWidget extends StatelessWidget {
+  final String text, type, image;
+  final bool isFromUser;
+
+  const MessageBubbleWidget({
+    super.key,
+    required this.text,
+    required this.isFromUser,
+    required this.type,
+    required this.image,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: isFromUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      children: [
+        Flexible(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 600),
+            decoration: BoxDecoration(
+              color: isFromUser ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(18),
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 10,
+            ),
+            margin: const EdgeInsets.only(bottom: 8),
+            child: type == 'image'
+                ? Image.file(height: 250, width: 250, fit: BoxFit.cover, File(image.toString()))
+                : MarkdownBody(
+              selectable: true,
+              data: text,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
