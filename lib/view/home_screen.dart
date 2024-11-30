@@ -4,10 +4,13 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:google_gen_ai/view/widgets/message_bubble_widget.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'widgets/widget.dart';
 import 'package:image_cropper/image_cropper.dart';
+
+import '../model/data_model.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -21,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late final GenerativeModel _model;
   late final ChatSession _chat;
+
   late final ScrollController _scrollController;
   final TextEditingController _textController = TextEditingController();
   final FocusNode _textFieldFocus = FocusNode();
@@ -31,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _loading = false;
 
   //save it in .env file or define system files
-  static const _apiKey = 'your_api_kye';
+  static const _apiKey = 'AIzaSyCBQ4HCLz5kiyLhr17yKG_nLUvwZ8inXxE';
 
   File? _image ;
 
@@ -94,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       controller: _scrollController,
                       itemBuilder: (context, index){
                         final data = list[index] ;
-                        return   MessageWidget( text: data.prompt, isFromUser: data.isMe, type: data.type, image: data.image, );
+                        return   MessageBubbleWidget( text: data.prompt, isFromUser: data.isMe, type: data.type, image: data.image, );
                       }
                   ),
                 );
@@ -335,58 +339,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
 }
 
-class MessageWidget extends StatelessWidget {
-  final String text, type, image;
-  final bool isFromUser ;
-  const MessageWidget({
-    super.key,
-    required this.text,
-    required this.isFromUser,
-    required this.type,
-    required this.image,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment:
-      isFromUser ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: [
-        Flexible(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 600),
-            decoration: BoxDecoration(
-              color: isFromUser
-                  ? Theme.of(context).colorScheme.primaryContainer
-                  : Theme.of(context).colorScheme.surfaceVariant,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 10,
-            ),
-            margin: const EdgeInsets.only(bottom: 8),
-            child:  type == 'image' ? Image.file(
-                height: 250,
-                width: 250,
-                fit: BoxFit.cover ,
-                File(image.toString())):    MarkdownBody(
-              selectable: true,
-              data: text,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 
-class DataModel{
-  String prompt, type, image;
-  bool isMe ;
-  DataModel(this.image , this.type, this.prompt , {this.isMe = false});
-}
+
 
 
 class StreamSocket {

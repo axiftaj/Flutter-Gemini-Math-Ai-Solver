@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_gen_ai/home_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_gen_ai/view/home_screen.dart';
 
-void main() {
+void main()async {
+  await dotenv.load(fileName: "assets/.env", mergeWith: {
+    'TEST_VAR': '5',
+  }); //
   runApp(const MyApp());
 }
 
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
       //  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  HomeScreen(),
+      home:  const HomeScreen(),
     );
   }
 }
